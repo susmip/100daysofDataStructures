@@ -1,78 +1,83 @@
-class Bnode:
-  def __init__(self,values):
-    self.values=values
-    self.rightChild=None
-    self.leftChild=None
+class BinarySearchTree:
+  def __init__(self,value):
+    self.value=value
+    self.left=None
+    self.right=None
 
-def insertion(rootnode,value):
-  if rootnode.values is None:
-    rootnode.values=value
-  elif rootnode.values>=value:
-    if rootnode.leftChild is None:
-      rootnode.leftChild=Bnode(value)
+def insert(root,ivalue):
+  if root.value is None:
+    root.value=ivalue
+  elif root.value>=ivalue:
+    if root.left is None:
+      root.left=BinarySearchTree(ivalue)
     else:
-      insertion(rootnode.leftChild,value)
+      insert(root.left,ivalue)
   else:
-    if rootnode.rightChild is None:
-      rootnode.rightChild=Bnode(value)
+    if root.right is None:
+      root.right=BinarySearchTree(ivalue)
     else:
-      insertion(rootnode.rightChild,value)
-def preorder(rootnode):
-  if not rootnode:
-    return "no elements"
-  print(rootnode.values)
-  preorder(rootnode.leftChild)
-  preorder(rootnode.rightChild)
-  
-def search(rootnode,value):
-  if rootnode.values==value:
+      insert(root.right,ivalue)
+  return "entered successfully"
+def preorder(root):
+  if root is None:
+    return
+  print(root.value)
+  preorder(root.left)
+  preorder(root.right)
+
+def search(root,svalue):
+  if root.value==svalue:
     print("value found")
-  elif value<rootnode.values:
-    if rootnode.leftChild.values==value:
+  elif svalue<root.value:
+    if root.left.value==svalue:
       print("value found")
     else:
-      search(rootnode.leftChild,value)
+      search(root.left,svalue)
   else:
-    if rootnode.rightChild.values==value:
+    if root.right.value==svalue:
       print("value found")
     else:
-      search(rootnode.rightChild,value)
-      
-def minvalue(rootNode):
-  curr=rootNode
-  while(curr.leftChild is not None):
-    curr=curr.leftChild
+      search(root.right,svalue)
+def minvalue(root):
+  curr=root
+  while(curr.left is not None):
+    curr=curr.left
   return curr
-  
-def deletion(rootnode,dvalue):
-  if rootnode is None:
-    return "no nodes"
-  if rootnode.values>dvalue:
-    rootnode.leftChild=deletion(rootnode.leftChild,dvalue)
-  elif rootnode.values<dvalue:
-    rootnode.rightChild=deletion(rootnode.rightChild,dvalue)
+def deletion(root,dvalue):
+  if root is None:
+    return root
+  if dvalue<root.value:
+    root.left=deletion(root.left,dvalue)
+  elif dvalue>root.value:
+    root.right=deletion(root.right,dvalue)
   else:
-    if rootnode.leftChild is None:
-      temp=rootnode.rightChild
-      rootnode=None
+    if root.left is None:
+      temp=root.right
+      root=None
       return temp
-    if rootnode.rightChild is None:
-      temp=rootnode.leftChild
-      rootnode=None
+    if root.right is None:
+      temp=root.left
+      root=None
       return temp
-    temp=minvalue(rootnode.rightChild)
-    rootnode.values=temp.values
-    rootNode.rightChild=delete(rootNode.rightChild,temp.values)
-  return rootnode
+    temp=minvalue(root.right)
+    root.value=temp.value
+    root.right=deletion(root.right,temp.value)
+  return root
     
+    
+    
+  
 
-BT=Bnode(8)
-insertion(BT,7)
-insertion(BT,6)
-preorder(BT)
+
+BST=BinarySearchTree(None)
+insert(BST,40)
+insert(BST,30)
+insert(BST,50)
+preorder(BST)
 try:
-  search(BT,7)
+  search(BST,40)
 except:
   print("value not found")
-deletion(BT,6)
-preorder(BT)
+
+deletion(BST,10)
+preorder(BST)
