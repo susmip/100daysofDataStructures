@@ -60,7 +60,7 @@ def deletion(rootnode,dvalue):
       temp=rootnode.leftChild
       rootnode=None
       return temp
-    temp=minvalue(rootnode)
+    temp=minvalue(rootnode.rightChild)
     rootnode.values=temp.values
     rootNode.rightChild=delete(rootNode.rightChild,temp.values)
   return rootnode
